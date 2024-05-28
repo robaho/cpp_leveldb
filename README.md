@@ -33,16 +33,17 @@ Modern C++ is a joy in many ways but it isn't perfect.
 
 ### pros
 
-1. Approaches garbage collection memory safety using `shared_ptr`.
-1. Tools like ASan make tracking down memory issues fairly straightforward.
+1. Approaches garbage collection memory safety by using `shared_ptr`.
+1. Tools like ASan make tracking down memory issues/leaks fairly straightforward.
 1. Many easy to use profilers available. I used [Samply](https://github.com/mstange/samply) during development.
 1. Many modern debuggers and IDEs available - supporting syntax highlighting, code completion and popup api documentation.
+1. Excellent support for unit tests using facilities like Boost.
 1. Performance can be outstanding.
 
 ### cons
 
 1. `shared_ptr` is slow, making it only suitable for top-level objects, then you must use raw pointers internally.
-1. Dynamic memory management (e.g. `malloc/free`) is very slow. This necessitates "manual" memory management techniques, e.g. buffer re-use, arena allocators, etc. The initial "clean" C++ version was nearly 3x slower than the final - much, much slower than the Go or Java versions. In order to achieve the desired performance, you end up with "restrictive" apis. For instance, the Google API docs state:
+1. Dynamic memory management (e.g. `malloc/free`) is very slow. This necessitates "manual" memory management, e.g. buffer re-use, arena allocators, etc. The initial "clean" C++ version was nearly 3x slower than the final - much, much slower than the Go or Java versions. In order to achieve the desired performance, you end up creating "restrictive/bug-prone" apis. For instance, the Google API docs state:
 
     > Caller should delete the iterator when it is no longer needed.
     The returned iterator should be deleted before this db is deleted.
@@ -52,10 +53,11 @@ Modern C++ is a joy in many ways but it isn't perfect.
     > Return the value for the current entry.  The underlying storage for
     the returned slice is valid only until the next modification of the iterator.
 
-    Some of these techniques could probably be applied to the Go version, but the code feels un "Go like".
 
-1. Compilation times are extremely slow, especially when using higher optimization levels.
+1. Compilation times are extremely slow, especially when using higher optimization levels. Since C++ does not use a context-free grammar everything must be recompiled almost always.
 1. Writing lock-free data structures is much easier in a GC language due to the [ABA problem](https://en.wikipedia.org/wiki/ABA_problem). `std::atomic` helps but using a well-tested library like Boost is probably safer. Still, I was able to implement the concurrent skip list in a lock-free manner.
+1. Cryptic error messages. Missing a single character can lead to a 100 line error across multiple files. Same underlying cause as the slow compile times.
+1. Having to work with both header and implementation files is a pain.
 
 ## next steps
 
