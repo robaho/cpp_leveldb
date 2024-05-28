@@ -1,5 +1,4 @@
-#ifndef _FD_FILEBUF
-#define _FD_FILEBUF
+#pragma once
 
 #include <iostream>
 #include <streambuf>
@@ -50,5 +49,3 @@ public:
         }
     }
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _WRITE_BATCH
-#define _WRITE_BATCH
+#pragma once
 
 #include <list>
 #include "keyvalue.h"
@@ -21,5 +20,3 @@ struct WriteBatch {
         return entries.size();
     }
 };
-
-#endif

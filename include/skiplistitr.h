@@ -1,5 +1,4 @@
-#ifndef _SKIPLIST_ITERATOR
-#define _SKIPLIST_ITERATOR
+#pragma once
 
 #include "keyvalue.h"
 #include "skiplist.h"
@@ -39,5 +38,3 @@ public:
         return peek.key;
     }
 };
-
-#endif

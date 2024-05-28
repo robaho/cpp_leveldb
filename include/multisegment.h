@@ -1,5 +1,5 @@
-#ifndef _MULTI_SEGMENT
-#define _MULTI_SEGMENT
+#pragma once
+
 #include <vector>
 #include <boost/range/adaptor/reversed.hpp>
 
@@ -143,4 +143,3 @@ public:
         }
     };
 };
-#endif

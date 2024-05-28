@@ -1,5 +1,4 @@
-#ifndef _SLICE
-#define _SLICE
+#pragma once
 
 #include <algorithm>
 #include <cstdint>
@@ -53,5 +52,3 @@ struct Slice {
     }
     bool empty() const { return ptr==nullptr || length==0; }
 };
-
-#endif

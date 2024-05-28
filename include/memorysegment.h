@@ -1,5 +1,5 @@
-#ifndef _MEMORY_SEGMENT
-#define _MEMORY_SEGMENT
+#pragma once
+
 #include <string>
 
 #include "constants.h"
@@ -93,6 +93,3 @@ public:
     }
     std::vector<std::string> files() override { return {}; }
 };
-
-
-#endif

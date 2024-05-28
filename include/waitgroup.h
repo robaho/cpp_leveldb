@@ -1,5 +1,4 @@
-#ifndef _WAIT_GROUP
-#define _WAIT_GROUP
+#pragma once
 
 #include <mutex>
 #include <condition_variable>
@@ -55,7 +54,3 @@ public:
         wg.done();
     }
 };
-
-#endif
-
-

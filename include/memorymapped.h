@@ -1,5 +1,4 @@
-#ifndef _MEMORY_MAPPED
-#define _MEMORY_MAPPED
+#pragma once
 
 #include <filesystem>
 #include <boost/interprocess/file_mapping.hpp>
@@ -45,5 +44,3 @@ public:
         return MIN(length,_length-position);
     }
 };
-
-#endif

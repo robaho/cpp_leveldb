@@ -1,5 +1,4 @@
-#ifndef _DATABASE
-#define _DATABASE
+#pragma once
 
 #include <memory>
 #include <string>
@@ -200,5 +199,3 @@ public:
      */
     LookupRef lookup(const Slice& lower, const Slice& upper);
 };
-
-#endif

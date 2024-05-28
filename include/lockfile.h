@@ -1,5 +1,4 @@
-#ifndef _LOCKFILE
-#define _LOCKFILE
+#pragma once
 
 #include <filesystem>
 #include <iostream>
@@ -48,7 +47,3 @@ public:
         }
     }
 };
-
-#endif
-
-

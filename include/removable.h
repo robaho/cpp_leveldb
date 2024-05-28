@@ -1,7 +1,6 @@
-#ifndef _REMOVABLE
-#define _REMOVABLE
+#pragma once
+
 class Removable {
     public:
         virtual void remove() = 0;
 };
-#endif

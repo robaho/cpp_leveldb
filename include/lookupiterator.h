@@ -1,7 +1,6 @@
-#ifndef _LOOKUP_ITERATOR
-#define _LOOKUP_ITERATOR
-#include <memory>
+#pragma once
 
+#include <memory>
 #include "keyvalue.h"
 
 class LookupIterator {
@@ -25,4 +24,3 @@ struct EmptyIterator : public LookupIterator {
 };
 
 typedef std::shared_ptr<LookupIterator> LookupRef;
-#endif

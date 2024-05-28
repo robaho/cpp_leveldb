@@ -1,5 +1,5 @@
-#ifndef _SEGMENT
-#define _SEGMENT
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -55,5 +55,3 @@ static std::vector<SegmentRef> copyAndAppend(std::vector<SegmentRef> list, Segme
     copy.push_back(segment);
     return copy;
 }
-
-#endif

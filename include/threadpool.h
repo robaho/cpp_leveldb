@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stddef.h>
 #include <thread>
 #include <queue>
@@ -96,4 +98,4 @@ private:
     // Flag to indicate whether the thread pool should stop 
     // or not 
     bool stop_ = false; 
-}; 
+};

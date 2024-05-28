@@ -8,9 +8,6 @@
 #include "database.h"
 
 static const int nr = 1000000;
-static const int vSize = 100;
-static const int kSize = 16;
-static const int batchSize = 1000;
 static const std::string dbname = "testdb/mydb";
 
 static long millis(const std::chrono::system_clock::time_point& end,const std::chrono::system_clock::time_point& start) {

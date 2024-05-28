@@ -1,5 +1,4 @@
-#ifndef _ARENA
-#define _ARENA
+#pragma once
 
 #include <vector>
 
@@ -36,4 +35,3 @@ public:
         return result;
     }    
 };
-#endif

@@ -1,5 +1,4 @@
-#ifndef _KEYVALUE
-#define _KEYVALUE
+#pragma once
 
 #include <iostream>
 #include <string>
@@ -46,5 +45,3 @@ static CompareFn keyValueCompare(const Options& options) {
 }
 
 extern std::ostream& operator<<(std::ostream& os, const KeyValue& kv);
-
-#endif

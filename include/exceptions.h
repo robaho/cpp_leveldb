@@ -1,8 +1,7 @@
+#pragma once
+
 #include <iostream>
 #include <exception>
-
-#ifndef _EXCEPTIONS
-#define _EXCEPTIONS
 
 class DatabaseException : public std::exception {
 private:
@@ -62,6 +61,3 @@ class InvalidDatabase : public IllegalState {
 public:
     InvalidDatabase() : IllegalState("path is not a valid database"){}
 };
-
-
-#endif

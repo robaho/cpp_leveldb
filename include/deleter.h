@@ -1,5 +1,4 @@
-#ifndef _DELETER
-#define _DELETER
+#pragma once
 
 #include <vector>
 #include <string>
@@ -40,4 +39,3 @@ public:
         fs::remove(dbpath+"/deleted");
     }
 };
-#endif

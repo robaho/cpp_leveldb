@@ -1,5 +1,4 @@
-#ifndef _LOG_SEGMENT
-#define _LOG_SEGMENT
+#pragma once
 
 #include <string>
 #include <filesystem>
@@ -62,4 +61,3 @@ public:
         return {fs::path(path).filename()};
     }
 };
-#endif

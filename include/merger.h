@@ -1,5 +1,4 @@
-#ifndef _MERGER
-#define _MERGER
+#pragma once
 
 #include "segment.h"
 
@@ -17,6 +16,3 @@ public:
     void mergeSegments0(Database *db,int maxSegments);
     SegmentRef mergeSegments1(Deleter &deleter, const std::string& dbpath, std::vector<SegmentRef>& segments,bool purgeDeleted);
 };
-
-#endif
-

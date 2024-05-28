@@ -1,5 +1,4 @@
-#ifndef _LOGFILE
-#define _LOGFILE
+#pragma once
 
 #include <string>
 #include <filesystem>
@@ -29,4 +28,3 @@ class LogFile {
 };
 
 void readLogFile(SkipList<const KeyValue>& list,std::string path,const Options& options);
-#endif

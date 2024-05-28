@@ -1,5 +1,4 @@
-#ifndef _BYTE_BUFFER
-#define _BYTE_BUFFER
+#pragma once
 
 #include <cstdint>
 #include <memory>
@@ -88,5 +87,3 @@ class ByteBuffer {
             return a.compareTo(b) < 0;
         }
 };
-
-#endif

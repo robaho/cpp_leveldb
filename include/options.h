@@ -1,5 +1,4 @@
-#ifndef _OPTIONS
-#define _OPTIONS
+#pragma once
 
 #include <vector>
 #include "bytebuffer.h"
@@ -38,5 +37,4 @@ public:
         this->createIfNeeded = createIfNeeded;
     }
 };
-#endif
 

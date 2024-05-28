@@ -1,5 +1,4 @@
-#ifndef _DISK_SEGMENT
-#define _DISK_SEGMENT
+#pragma once
 
 #include <vector>
 #include <memory.h>
@@ -133,6 +132,3 @@ public:
     ByteBuffer& get(const Slice& key,ByteBuffer &value) override;
     static std::vector<SegmentRef> loadDiskSegments(std::string directory,Options options);
 };
-
-
-#endif

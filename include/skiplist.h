@@ -1,5 +1,4 @@
-#ifndef _SKIPLIST
-#define _SKIPLIST
+#pragma once
 
 #include <vector>
 #include "arena.h"
@@ -156,4 +155,3 @@ public:
         return Iterator(this);
     }
 };
-#endif
