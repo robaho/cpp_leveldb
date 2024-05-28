@@ -1,0 +1,36 @@
+default optimization
+
+Running 1 test case...
+write no-sync time 10802 records 1000000 usec per ops 10.802
+close time 1137
+write sync time 103 records 10000 usec per ops 10.3
+close time 11
+batch insert time 1000000 records = 11321 ms, usec per ops 11.321
+close time 1132 ms
+database size 109M
+write no-sync overwrite time 10984 records 1000000 usec per ops 10.984
+close time 1124
+read random time 93.4 us per get
+read seq time 8144 ms, us per op 8.144
+compact time 8842 ms
+database size 109M
+read random time 92.1 us per get
+read seq time 2947 ms, us per op 2.947
+
+optimization O3
+
+write no-sync time 700 records 1000000 usec per ops 0.7
+close time 470
+write sync time 20 records 10000 usec per ops 2
+close time 5
+batch insert time 1000000 records = 901 ms, usec per ops 0.901
+close time 502 ms
+database size 109M
+write no-sync overwrite time 719 records 1000000 usec per ops 0.719
+close time 532
+read random time 4.58 us per get
+read seq time 871 ms, us per op 0.871
+compact time 3492 ms
+database size 109M
+read random time 4.66 us per get
+read seq time 434 ms, us per op 0.434

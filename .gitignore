@@ -1,0 +1,7 @@
+.DS_Store
+bin/
+*.o
+*_test
+test/
+testdb/
+.vscode
