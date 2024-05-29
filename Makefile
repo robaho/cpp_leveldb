@@ -20,7 +20,7 @@ MAIN_OBJ = ${basename ${MAIN}}.o
 
 .PRECIOUS: bin/%.o
 
-all: ${MAIN} $(TEST_MAINS)
+all: ${MAIN} $(TEST_MAINS) bin/cpp_leveldb.a
 	@echo compile finished
 
 test: ${TEST_MAINS}
@@ -29,6 +29,9 @@ run_tests: ${TEST_MAINS}
 	for main in $^ ; do \
 		$$main; \
 	done
+
+bin/cpp_leveldb.a: ${OBJS}
+	ar r bin/cpp_leveldb.a ${OBJS}
 
 ${MAIN}: ${OBJS} ${MAIN_OBJ}
 	${CXX} ${CXXFLAGS} ${MAIN_OBJ} ${OBJS} -o ${MAIN}

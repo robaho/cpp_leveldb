@@ -12,7 +12,7 @@ Now with this C++ port, I have written the same library from scratch in three la
 
 ## performance
 
-Google's leveldb includes a benchmarking tool [dbbench](https://github.com/google/leveldb/blob/068d5ee1a3ac40dabd00d211d5013af44be55bea/benchmarks/db_bench.cc). I have replicated this in each of the libraries. All tests are run on the same Intel iMac under OSX.
+Google's leveldb includes a benchmarking tool [dbbench](https://github.com/google/leveldb/blob/068d5ee1a3ac40dabd00d211d5013af44be55bea/benchmarks/db_bench.cc). I have replicated this in each of the libraries. All tests are run on the same Intel iMac under OSX. All timings are in microseconds / operation.
 
 | Test | Go     | Java | C++ | Google |
 | ---  | ---: | ---: | ---: | ---: |
