@@ -10,6 +10,8 @@ The project is a bit of an "inception", in that, my original keydb was written i
 
 Now with this C++ port, I have written the same library from scratch in three languages - along with an independent version developed by Google. My library focus was on api simplicity, maintainability and performance. The three versions are written using the same design, but are idiomatic within the language.
 
+leveldb only supports multi-threaded access. There is a client/server module to expose cpp_leveldb for multi-process access available at [cpp_leveldbr](https://github.com/robaho/cpp_leveldbr)
+
 ## performance
 
 Google's leveldb includes a benchmarking tool [dbbench](https://github.com/google/leveldb/blob/068d5ee1a3ac40dabd00d211d5013af44be55bea/benchmarks/db_bench.cc). I have replicated this in each of the libraries. All tests are run on the same Intel iMac under OSX. All timings are in microseconds / operation.
