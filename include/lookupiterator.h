@@ -23,4 +23,4 @@ struct EmptyIterator : public LookupIterator {
     ~EmptyIterator(){}
 };
 
-typedef std::shared_ptr<LookupIterator> LookupRef;
+typedef std::unique_ptr<LookupIterator> LookupRef;

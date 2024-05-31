@@ -83,7 +83,7 @@ public:
         {
             iterators.push_back(s->lookup(lower, upper));
         }
-        return LookupRef(new Iterator(SegmentRef(weakRef),iterators));
+        return LookupRef(new Iterator(SegmentRef(weakRef),std::move(iterators)));
     }
 
     class Iterator : public LookupIterator {
@@ -91,7 +91,7 @@ public:
         const SegmentRef ms;
         std::vector<LookupRef> iterators;
     public:
-        Iterator(SegmentRef ms, std::vector<LookupRef> iterators) :  ms(ms), iterators(iterators) {}        
+        Iterator(SegmentRef ms, std::vector<LookupRef> iterators) :  ms(ms), iterators(std::move(iterators)) {}        
         Slice peekKey() override {
             throw IllegalState("peekKey called on MultiSegment::Iterator");
         }
@@ -102,7 +102,7 @@ public:
             Slice key;
 
             for (int i = iterators.size()-1;i>=0;i--) {
-                auto itr = iterators[i];
+                auto itr = iterators[i].get();
 
                 key = itr->peekKey();
                 if(key.empty()) continue;
@@ -128,7 +128,7 @@ public:
                 if (i == currentIndex) {
                     continue;
                 }
-                auto iterator = iterators[i];
+                auto iterator = iterators[i].get();
                 while(true) {
                     key = iterator->peekKey();
                     if(!key.empty() && lowest.compareTo(key) >= 0) {

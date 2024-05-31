@@ -41,11 +41,11 @@ void writeSegmentToDisk(Database *db,SegmentRef seg) {
 
     std::string keyFilename = db->path+"/keys."+std::to_string(lowerId)+"."+std::to_string(upperId);
     std::string dataFilename = db->path+"/data."+std::to_string(lowerId)+"."+std::to_string(upperId);
-    writeAndLoadSegment(keyFilename,dataFilename,itr,false);
+    writeAndLoadSegment(keyFilename,dataFilename,itr.get(),false);
     seg->removeSegment();
 }
 
-SegmentRef writeAndLoadSegment(std::string keyFilename,std::string dataFilename,LookupRef itr,bool purgeDeleted) {
+SegmentRef writeAndLoadSegment(std::string keyFilename,std::string dataFilename,LookupIterator * const itr,bool purgeDeleted) {
     if(fs::exists(keyFilename) || fs::exists(dataFilename)) {
         throw IllegalState("key/data file should not exist");
     }
@@ -109,7 +109,7 @@ DiskKey encodeKey(const Slice& key,const Slice& prevKey) {
     return DiskKey{.keylen=(uint16_t)key.length, .compressedKey=key};
 }
 
-KeyIndex writeSegmentFiles(std::string keyFilename,std::string dataFilename,LookupRef itr,bool purgeDeleted) {
+KeyIndex writeSegmentFiles(std::string keyFilename,std::string dataFilename,LookupIterator *itr,bool purgeDeleted) {
     KeyIndex keyIndex;
 
     std::fstream keyF;

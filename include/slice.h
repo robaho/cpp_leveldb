@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <string>
+#include <string_view>
 
 /**
  * @brief a Slice is a temporary view into an array of bytes. A slice must
@@ -33,6 +34,7 @@ struct Slice {
         return length - other.length;
     }
     operator uint8_t*() const { return (uint8_t *)ptr; }
+    operator std::string_view() const { return std::string_view((const char*)ptr,length); }
     Slice& operator=(const Slice& other) {
         ptr=other.ptr;
         length = other.length;

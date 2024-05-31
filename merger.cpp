@@ -108,7 +108,7 @@ SegmentRef Merger::mergeSegments1(Deleter &deleter, const std::string& dbpath, s
 
     auto ms = MultiSegment::newMultiSegment(segments);
     auto itr = ms->lookup("","");
-    auto seg = writeAndLoadSegment(keyFilename,dataFilename,itr,purgeDeleted);
+    auto seg = writeAndLoadSegment(keyFilename,dataFilename,itr.get(),purgeDeleted);
     deleter.scheduleDeletion(files);
     return seg;
 

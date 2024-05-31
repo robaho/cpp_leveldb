@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE( disksegment ) {
     ms->put("mykey2","myvalue2");
     ms->put("mykey3","myvalue3");
     auto itr = ms->lookup("","");
-    auto ds = writeAndLoadSegment("test/keys.0.0","test/data.0.0",itr,false);
+    auto ds = writeAndLoadSegment("test/keys.0.0","test/data.0.0",itr.get(),false);
     auto itr2 = ds->lookup("","");
     int count=0;
     while(true) {
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE( disksegment_empty ) {
     ms->put("mykey","myvalue");
     ms->remove("mykey");
     auto itr = ms->lookup("","");
-    auto ds = writeAndLoadSegment("test/keys.0.0","test/data.0.0",itr,false);
+    auto ds = writeAndLoadSegment("test/keys.0.0","test/data.0.0",itr.get(),false);
     itr = ds->lookup("","");
     int count=0;
     while(true) {
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE( disksegment_large ) {
         ms->put(k,v);
     }
     auto itr = ms->lookup("","");
-    auto ds = writeAndLoadSegment("test/keys.0.0","test/data.0.0",itr,false);
+    auto ds = writeAndLoadSegment("test/keys.0.0","test/data.0.0",itr.get(),false);
     itr = ds->lookup("","");
     int count = 0;
     while(true) {
