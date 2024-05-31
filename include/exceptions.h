@@ -17,23 +17,23 @@ public:
 
 class DatabaseNotFound : public DatabaseException {
 public:
-    DatabaseNotFound() : DatabaseException("Database not found."){};
+    DatabaseNotFound() : DatabaseException("no database found"){};
 };
 
 class DatabaseClosed : public DatabaseException {
 public:
-    DatabaseClosed() : DatabaseException("Database closed."){};
+    DatabaseClosed() : DatabaseException("database closed"){};
 };
 
 class SnapshotClosed : public DatabaseException {
 public:
-    SnapshotClosed() : DatabaseException("Snapshot closed."){};
+    SnapshotClosed() : DatabaseException("snapshot closed"){};
 };
 
 
 class DatabaseInUse : public DatabaseException {
 public:
-    DatabaseInUse() : DatabaseException("Database in use."){};
+    DatabaseInUse() : DatabaseException("database in use"){};
 };
 
 class DatabaseOpenFailed : public DatabaseException {
@@ -47,17 +47,28 @@ public:
     IllegalState(const char *what) : std::logic_error(what) { };
 };
 
-class InvalidKeyLength : public IllegalState {
-public:
-    InvalidKeyLength() : IllegalState("key length must be > 0 and <= 1024"){}
-};
-
 class DatabaseCorrupted : public IllegalState {
 public:
-    DatabaseCorrupted() : IllegalState("database log file is corrupted"){}
+    DatabaseCorrupted() : IllegalState("database corrupted, run repair"){}
 };
 
 class InvalidDatabase : public IllegalState {
 public:
     InvalidDatabase() : IllegalState("path is not a valid database"){}
+};
+
+class EmptyKey: public IllegalState {
+public:
+    EmptyKey() : IllegalState("key is empty"){}
+};
+
+class KeyTooLong: public IllegalState {
+public:
+    KeyTooLong() : IllegalState("key too long, max 1024"){}
+};
+
+
+class EndOfIterator : public DatabaseException {
+public:
+    EndOfIterator() : DatabaseException("end of iterator"){};
 };

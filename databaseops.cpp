@@ -12,7 +12,7 @@ ByteBuffer Database::get(const Slice& key) {
 
 ByteBuffer& Database::get(const Slice& key,ByteBuffer& value) {
     if(!_open) throw DatabaseClosed();
-    if(key.length<=0 || key.length>1024) throw InvalidKeyLength();
+    checkKey(key);
     return getState()->multi->get(key,value);
 }
 
@@ -38,7 +38,7 @@ void Database::put(const Slice& key,const Slice& value) {
     DB_LOCK();
 
     if(!_open) throw DatabaseClosed();
-    if(key.length<=0 || key.length>1024) throw InvalidKeyLength();
+    checkKey(key);
 
     maybeSwapMemory();
 
@@ -52,7 +52,7 @@ void Database::put(const Slice& key,const Slice& value) {
 ByteBuffer Database::remove(const Slice& key) {
     DB_LOCK();
     if(!_open) throw DatabaseClosed();
-    if(key.length <1 || key.length> 1024) throw InvalidKeyLength();
+    checkKey(key);
 
     auto value = get(key);
     if(value.empty()) return value;

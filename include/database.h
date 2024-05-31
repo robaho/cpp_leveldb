@@ -199,3 +199,5 @@ public:
      */
     LookupRef lookup(const Slice& lower, const Slice& upper);
 };
+
+#define checkKey(x) if(x.empty()) throw EmptyKey(); if(x.length>1024) throw KeyTooLong();
