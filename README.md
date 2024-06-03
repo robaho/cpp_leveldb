@@ -1,6 +1,6 @@
 ## summary
 
-This is a C++ port of my [keydb](https://github.com/robaho/leveldb) key/value database.
+This is a C++ port of my ultra low-latency [keydb](https://github.com/robaho/leveldb) key/value database.
 
 ## background
 
