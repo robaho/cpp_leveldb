@@ -35,7 +35,7 @@ Modern C++ is a joy in many ways but it isn't perfect.
 
 ### pros
 
-1. Approaches garbage collection memory safety by using `shared_ptr`.
+1. Approaches garbage collection memory safety by using `shared_ptr`, `unique_ptr`, etc.
 1. Tools like ASan make tracking down memory issues/leaks fairly straightforward.
 1. Many easy to use profilers available. I used [Samply](https://github.com/mstange/samply) during development.
 1. Many modern debuggers and IDEs available - supporting syntax highlighting, code completion and popup api documentation.
@@ -55,6 +55,7 @@ Modern C++ is a joy in many ways but it isn't perfect.
     > Return the value for the current entry.  The underlying storage for
     the returned slice is valid only until the next modification of the iterator.
 
+    Which works, but it does make the api more fragile (i.e. error prone). Often the inefficiency is simply pushed farther (e.g. you can't store the returned iterator value in a map without a copy).
 
 1. Compilation times are extremely slow, especially when using higher optimization levels. Since C++ does not use a context-free grammar everything must be recompiled almost always.
 1. Writing lock-free data structures is much easier in a GC language due to the [ABA problem](https://en.wikipedia.org/wiki/ABA_problem). `std::atomic` helps but using a well-tested library like Boost is probably safer. Still, I was able to implement the concurrent skip list in a lock-free manner.
