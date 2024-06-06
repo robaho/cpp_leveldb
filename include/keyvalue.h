@@ -15,6 +15,7 @@ struct KeyValue {
         return kv;
     };
     KeyValue(const KeyValue& kv) : key(kv.key) , value(kv.value){}
+    KeyValue(const KeyValue& kv,Arena* arena) : key(kv.key,arena) , value(kv.value,arena){}
     KeyValue(const Slice& key,const Slice& value) : key(key), value(value){
         // std::cout << "allocated KeyValue\n";
     };

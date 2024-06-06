@@ -4,14 +4,16 @@
 #include <memory>
 #include <string>
 
+#include "arena.h"
 #include "exceptions.h"
 #include "slice.h"
 
 /**
- * @brief a variable length buffer similar to a vector but with support for Slice views
+ * @brief a variable length buffer similar to a vector but with support for Slice views. support Allocation using Arena to avoid small allocations and frees.
  */
 class ByteBuffer {
     private:
+        Arena* arena = nullptr;
         uint8_t *ptr;
         int capacity_;
         ByteBuffer(const uint8_t* chars,const int len) : ByteBuffer(len) {
@@ -19,25 +21,36 @@ class ByteBuffer {
         }
     public:
         ~ByteBuffer() { 
-            free(ptr);
+            if(!arena) free(ptr);
             ptr=nullptr;
             capacity_=0;
             // std::cout << "Destructed BB capacity " << capacity_ << "\n";
          }
         ByteBuffer() : ByteBuffer(64) { length = 0; }
-        ByteBuffer(const int len) : ptr(len==0 ? nullptr : len<0 ? throw IllegalState("length must be >=0") : new uint8_t[len]), capacity_(len), length(len)  {
+        ByteBuffer(Arena* arena) : ByteBuffer(64,arena) { length = 0; }
+        ByteBuffer(const int len) : arena(nullptr), ptr(len==0 ? nullptr : len<0 ? throw IllegalState("length must be >=0") : new uint8_t[len]), capacity_(len), length(len)  {
+            // std::cout << "Allocated BB capacity " << len << "\n";
+        };
+        ByteBuffer(const int len,Arena* arena) : arena(arena), ptr(len==0 ? nullptr : len<0 ? throw IllegalState("length must be >=0") : (uint8_t*)arena->allocate(len)), capacity_(len), length(len)  {
             // std::cout << "Allocated BB capacity " << len << "\n";
         };
         ByteBuffer(const ByteBuffer& bb) : ByteBuffer(bb.ptr,bb.length){}
+        ByteBuffer(const ByteBuffer& bb,Arena* arena) : ByteBuffer(bb.length,arena) {
+            memcpy(ptr,bb.ptr,bb.length);
+        }
         ByteBuffer(const Slice& slice) : ByteBuffer(slice,slice.length){};
-        ByteBuffer(ByteBuffer&& bb) : ptr(bb.ptr), capacity_(bb.capacity_), length(bb.length) { bb.ptr=nullptr; bb.length=0;bb.capacity_=0;}
+        ByteBuffer(ByteBuffer&& bb) : arena(bb.arena), ptr(bb.ptr), capacity_(bb.capacity_), length(bb.length) { bb.ptr=nullptr; bb.length=0;bb.capacity_=0;}
         ByteBuffer(const char* chars) : ByteBuffer(strlen(chars)) {
             memcpy((void *)ptr,(const void*)chars,length);
         }
         ByteBuffer(const std::string s) : ByteBuffer(s.c_str()) {}
         ByteBuffer& operator=(const ByteBuffer& other) {
             if(capacity_<other.length) {
-                ptr = (uint8_t*)realloc(ptr, other.length);
+                if(arena) {
+                    ptr = (uint8_t*)arena->allocate(other.length);
+                } else {
+                    ptr = (uint8_t*)realloc(ptr, other.length);
+                }
                 capacity_ = other.length;
             }
             memcpy(ptr,other.ptr,other.length);
@@ -46,7 +59,11 @@ class ByteBuffer {
         }
         ByteBuffer& operator=(const Slice& other) {
             if(capacity_<other.length) {
-                ptr = (uint8_t*)realloc(ptr, other.length);
+                if(arena) {
+                    ptr = (uint8_t*)arena->allocate(other.length);
+                } else {
+                    ptr = (uint8_t*)realloc(ptr, other.length);
+                }
                 capacity_ = other.length;
             }
             memcpy(ptr,other.ptr,other.length);
@@ -81,7 +98,13 @@ class ByteBuffer {
         }
         void ensureCapacity(int capacity) {
             if(capacity_<capacity) {
-                ptr = (uint8_t*)realloc(ptr,capacity);
+                if(arena) {
+                    auto newp = (uint8_t*)arena->allocate(capacity);
+                    memcpy(newp,ptr,length);
+                    ptr = newp;
+                } else {
+                    ptr = (uint8_t*)realloc(ptr, capacity);
+                }
                 capacity_ = capacity;
             }
         }

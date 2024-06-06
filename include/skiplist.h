@@ -1,5 +1,6 @@
 #pragma once
 
+#include <type_traits>
 #include <vector>
 #include "arena.h"
 
@@ -11,7 +12,8 @@ private:
     struct Node {
         const K key;
         const int height;
-        Node(const K& key,const int height) : key(key), height(height) {}
+        Node(const K& key_,const int height_, Arena* arena) requires(std::is_constructible<K,Arena*>::value): key(key_,arena), height(height_){}
+        Node(const K& key_,const int height_, Arena* arena) requires(!std::is_constructible<K,Arena*>::value): key(key_), height(height_){}
         Node* next(int n) {
             return next_[n];
         }
@@ -67,7 +69,7 @@ private:
 
     Node* newNode(const K& key,int height) {
         void* const node_memory = arena.allocate(sizeof(Node) + sizeof(std::atomic<Node*>) * (height-1));
-        return new (node_memory) Node(key,height);
+        return new (node_memory) Node(key,height,&arena);
     }
 
 public:
