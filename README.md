@@ -20,12 +20,12 @@ Google's leveldb includes a benchmarking tool [dbbench](https://github.com/googl
 | ---  | ---: | ---: | ---: | ---: |
 | write no-sync | 4.10 | 4.86 | 5.34 | 4.60 |
 | write sync<sup>1</sup> | 49 | 47 | 10281 | 10023 |
-| write batch | 1.02 | 1.08 | 1.21 | 1.94 |
+| write batch | 1.02 | 1.08 | 1.20 | 1.94 |
 | write overwrite | 4.21 | 4.70 | 6.10 | 8.20 |
 | read random | 2.42 | 5.65 | 5.36 | 4.74 |
-| read sequential | 0.45 | .35 | 0.56 | 0.15 |
+| read sequential | 0.45 | .35 | 0.47 | 0.15 |
 | read random compact | 2.30 | 5.20 | 4.50 | 2.13 |
-| read sequential compact | 0.11 | 0.10 | 0.08 | 0.12 |
+| read sequential compact | 0.11 | 0.10 | 0.05 | 0.12 |
 
 <sup>1</sup> Both C++ and Google versions use `FULLFSYNC` on OSX for improved safety.
 
