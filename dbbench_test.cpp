@@ -26,7 +26,7 @@ static std::string dbsize(const std::string& dbpath) {
         size += fs::file_size(f);
     }
     char tmp[128];
-    snprintf(tmp,128,"%.1ldM", size/(1024*1024));
+    snprintf(tmp,128,"%0.1fM", size/(1024.0*1024.0));
     return tmp;
 }
 
@@ -60,6 +60,7 @@ static void _testWrite(bool sync,bool remove) {
     db->closeWithMerge(0);
     end = std::chrono::system_clock::now();
     std::cout << "close time " << millis(end,start) << "\n";
+    std::cout << "database size " << dbsize(dbname) << "\n";
 }
 
 static void _testBatch() {

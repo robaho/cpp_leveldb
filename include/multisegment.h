@@ -114,7 +114,7 @@ public:
             }
 
             if (currentIndex == -1) {
-                kv = KeyValue::EMPTY;
+                kv = KeyValue::EMPTY();
                 return kv;
 	        }
 

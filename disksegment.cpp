@@ -212,7 +212,7 @@ ByteBuffer& DiskSegment::get(const Slice& key,ByteBuffer &value) {
     binarySearch(key,&offset,&length);
 
     if(offset<0 || length==0) {
-        value = ByteBuffer::EMPTY;
+        value = ByteBuffer::EMPTY();
         return value;
     }
     value.ensureCapacity(length);
@@ -249,7 +249,7 @@ void decodeKey(ByteBuffer &buffer,const Slice& key, const Slice& prevKey,uint16_
 
 void DiskSegment::Iterator::nextKeyValue() {
     if(finished) {
-        currentKey = ByteBuffer::EMPTY;
+        currentKey = ByteBuffer::EMPTY();
         return;
     }
 
@@ -263,14 +263,14 @@ void DiskSegment::Iterator::nextKeyValue() {
             block++;
             if(block == dsp->keyBlocks) {
                 finished = true;
-                currentKey = ByteBuffer::EMPTY;
+                currentKey = ByteBuffer::EMPTY();
                 valid = true;
                 return;
             }
             int n = dsp->keyFile.readAt(buffer,block*keyBlockSize,keyBlockSize);
             if(n!=keyBlockSize) throw IllegalState("did not read key block size");
             bufferOffset = 0;
-            prevKey = ByteBuffer::EMPTY;
+            prevKey = ByteBuffer::EMPTY();
             continue;
         }
         DecodedKeyLen dk = decodeKeyLen(keylen);
@@ -292,13 +292,13 @@ void DiskSegment::Iterator::nextKeyValue() {
             if(!ByteBuffer::less(currentKey,upper)) {
                 finished=true;
                 valid=true;
-                currentKey = ByteBuffer::EMPTY;
+                currentKey = ByteBuffer::EMPTY();
                 return;
             }
         }
     found:
         if(datalen==0) {
-            currentValue = ByteBuffer::EMPTY;
+            currentValue = ByteBuffer::EMPTY();
         } else {
             currentValue.ensureCapacity(datalen);
             dsp->dataFile.readAt(currentValue,dataoffset,datalen);

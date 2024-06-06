@@ -30,7 +30,7 @@ uint64_t readLEuint64(std::istream& file) {
 }
 
 void writeSegmentToDisk(Database *db,SegmentRef seg) {
-    auto itr = seg->lookup(ByteBuffer::EMPTY,ByteBuffer::EMPTY);
+    auto itr = seg->lookup(ByteBuffer::EMPTY(),ByteBuffer::EMPTY());
     if(itr->peekKey().empty()) {
         seg->removeSegment();
         return;
@@ -141,7 +141,7 @@ KeyIndex writeSegmentFiles(std::string keyFilename,std::string dataFilename,Look
             keyBlockLen+=2;
             writeBuffer(keyF,zeros,keyBlockSize-keyBlockLen);
             keyBlockLen=0;
-            prevKey = ByteBuffer::EMPTY;
+            prevKey = ByteBuffer::EMPTY();
         }
         if(keyBlockLen==0) {
             if((block%keyIndexInterval) == 0) {

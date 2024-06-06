@@ -10,10 +10,17 @@
 struct KeyValue {
     ByteBuffer key;
     ByteBuffer value;
-    static const KeyValue EMPTY;
+    static const KeyValue& EMPTY() {
+        static const KeyValue kv(ByteBuffer::EMPTY(),ByteBuffer::EMPTY());
+        return kv;
+    };
     KeyValue(const KeyValue& kv) : key(kv.key) , value(kv.value){}
-    KeyValue(const ByteBuffer& key,const ByteBuffer& value) : key(key), value(value){};
-    KeyValue() : KeyValue(ByteBuffer::EMPTY,ByteBuffer::EMPTY) {}
+    KeyValue(const Slice& key,const Slice& value) : key(key), value(value){
+        // std::cout << "allocated KeyValue\n";
+    };
+    KeyValue() : KeyValue(ByteBuffer::EMPTY(),ByteBuffer::EMPTY()) {
+        // std::cout << "allocated empty KeyValue\n";
+    }
     bool operator ==(const KeyValue& other) const {
         return key.compareTo(other.key)==0 && value.compareTo(other.value) == 0;
     }
@@ -29,7 +36,7 @@ struct KeyValue {
 
 typedef int (*CompareFn)(const KeyValue&,const KeyValue&);
 
-#define Key(x) KeyValue(x,ByteBuffer::EMPTY)
+#define Key(x) KeyValue(x,ByteBuffer::EMPTY())
 
 static CompareFn keyValueCompare(const Options& options) {
 	if (options.userKeyCompare == nullptr) {
@@ -44,4 +51,7 @@ static CompareFn keyValueCompare(const Options& options) {
 	}
 }
 
-extern std::ostream& operator<<(std::ostream& os, const KeyValue& kv);
+inline std::ostream& operator<<(std::ostream& os, const KeyValue& kv)
+{
+    return os << std::string(kv.key) << '/' << std::string(kv.value);
+}

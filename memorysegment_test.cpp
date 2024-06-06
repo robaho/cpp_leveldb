@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE( memorysegment_userkeyorder ) {
     ms->put("mykey1","myvalue1");
     ms->put("mykey2","myvalue2");
 
-    auto itr = ms->lookup(ByteBuffer::EMPTY,ByteBuffer::EMPTY);
+    auto itr = ms->lookup(ByteBuffer::EMPTY(),ByteBuffer::EMPTY());
     auto kv = itr->next();
     BOOST_TEST( kv.key=="mykey2");
     BOOST_TEST( kv.value=="myvalue2");

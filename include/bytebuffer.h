@@ -14,16 +14,23 @@ class ByteBuffer {
     private:
         uint8_t *ptr;
         int capacity_;
-        ByteBuffer(const uint8_t* chars,int length) : ByteBuffer(length) {
+        ByteBuffer(const uint8_t* chars,const int len) : ByteBuffer(len) {
             memcpy((void *)ptr,(const void*)chars,length);
         }
     public:
-        ~ByteBuffer() { free(ptr); }
-        ByteBuffer() : ByteBuffer(64) { length = 0;}
-        ByteBuffer(int len) : ptr(len==0 ? nullptr : len<0 ? throw IllegalState("length must be >=0") : new uint8_t[len]), capacity_(len), length(len)  {};
+        ~ByteBuffer() { 
+            free(ptr);
+            ptr=nullptr;
+            capacity_=0;
+            // std::cout << "Destructed BB capacity " << capacity_ << "\n";
+         }
+        ByteBuffer() : ByteBuffer(64) { length = 0; }
+        ByteBuffer(const int len) : ptr(len==0 ? nullptr : len<0 ? throw IllegalState("length must be >=0") : new uint8_t[len]), capacity_(len), length(len)  {
+            // std::cout << "Allocated BB capacity " << len << "\n";
+        };
         ByteBuffer(const ByteBuffer& bb) : ByteBuffer(bb.ptr,bb.length){}
         ByteBuffer(const Slice& slice) : ByteBuffer(slice,slice.length){};
-        ByteBuffer(ByteBuffer&& bb) : ptr(bb.ptr), capacity_(bb.capacity_), length(bb.length) { bb.ptr=nullptr; }
+        ByteBuffer(ByteBuffer&& bb) : ptr(bb.ptr), capacity_(bb.capacity_), length(bb.length) { bb.ptr=nullptr; bb.length=0;bb.capacity_=0;}
         ByteBuffer(const char* chars) : ByteBuffer(strlen(chars)) {
             memcpy((void *)ptr,(const void*)chars,length);
         }
@@ -58,7 +65,10 @@ class ByteBuffer {
         }
         int length;
         bool empty() const { return length==0; }
-        static const ByteBuffer EMPTY;
+        static const ByteBuffer& EMPTY() {
+            static const ByteBuffer empty(0);
+            return empty;
+        };
         int compareTo(const ByteBuffer& other) const {
             return slice().compareTo(other.slice());
         }
@@ -87,3 +97,9 @@ class ByteBuffer {
             return a.compareTo(b) < 0;
         }
 };
+
+inline std::ostream& operator<<(std::ostream& os, const ByteBuffer& bb)
+{
+    return os << (bb.empty() ? "" : std::string(bb));
+}
+

@@ -17,13 +17,13 @@ public:
 
     KeyValue& next(KeyValue& kv) override {
         if(!itr.valid()) {
-            kv = KeyValue::EMPTY;
+            kv = KeyValue::EMPTY();
             return kv;
         }
         kv = peek.key.empty() ? itr.key() : peek;
-        peek = KeyValue::EMPTY;
+        peek = KeyValue::EMPTY();
         if(!upper.key.empty() && cmp(kv,upper)>0) {
-            kv = KeyValue::EMPTY;
+            kv = KeyValue::EMPTY();
             return kv;
         }
         itr.next();

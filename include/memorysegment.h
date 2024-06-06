@@ -68,7 +68,7 @@ public:
     }
     ByteBuffer remove(const Slice& key) override
     {
-        return put(key, ByteBuffer::EMPTY);
+        return put(key, ByteBuffer::EMPTY());
     }
     void write(const WriteBatch& batch);
 

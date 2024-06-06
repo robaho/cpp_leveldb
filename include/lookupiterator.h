@@ -17,7 +17,7 @@ class LookupIterator {
 struct EmptyIterator : public LookupIterator {
     Slice peekKey() { return Slice(); }
     KeyValue& next(KeyValue& kv) {
-        kv = KeyValue::EMPTY;
+        kv = KeyValue::EMPTY();
         return kv;
     }
     ~EmptyIterator(){}
