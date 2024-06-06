@@ -9,14 +9,16 @@ TEST_MAINS = $(addprefix bin/, $(TEST_SRCS:.cpp=))
 
 HEADERS = ${wildcard include/*.h}
 
-SRCS =	database.cpp databaseops.cpp disksegment.cpp keyvalue.cpp \
-		bytebuffer.cpp diskio.cpp snapshot.cpp logfile.cpp memorysegment.cpp \
+SRCS =	database.cpp databaseops.cpp disksegment.cpp \
+		diskio.cpp snapshot.cpp logfile.cpp memorysegment.cpp \
 		merger.cpp
 
 OBJS = $(addprefix bin/, $(SRCS:.cpp=.o))
 
 MAIN = bin/skiplist_test
 MAIN_OBJ = ${basename ${MAIN}}.o
+
+LIB = bin/cpp_leveldb.a
 
 .PRECIOUS: bin/%.o
 
@@ -30,14 +32,14 @@ run_tests: ${TEST_MAINS}
 		$$main; \
 	done
 
-bin/cpp_leveldb.a: ${OBJS}
-	ar r bin/cpp_leveldb.a ${OBJS}
+${LIB}: ${OBJS}
+	ar r ${LIB} ${OBJS}
 
-${MAIN}: ${OBJS} ${MAIN_OBJ}
-	${CXX} ${CXXFLAGS} ${MAIN_OBJ} ${OBJS} -o ${MAIN}
+${MAIN}: ${MAIN_OBJ} ${LIB}
+	${CXX} ${CXXFLAGS} ${MAIN_OBJ} ${LIB} -o ${MAIN}
 
-bin/%_test: bin/%_test.o ${OBJS}
-	${CXX} ${CXXFLAGS} $@.o ${OBJS} -o $@
+bin/%_test: bin/%_test.o ${LIB}
+	${CXX} ${CXXFLAGS} $@.o ${LIB} -o $@ 
 
 bin/%.o: %.cpp ${HEADERS}
 	@ mkdir -p bin
