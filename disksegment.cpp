@@ -6,6 +6,7 @@
 
 #include <arpa/inet.h>
 
+#include "constants.h"
 #include "disksegment.h"
 #include "logsegment.h"
 #include "diskio.h"
@@ -103,7 +104,7 @@ void DiskSegment::binarySearch(const Slice& key,int64_t *offset,uint32_t *length
         highBlock = keyBlocks-1;
     }
 
-    ByteBuffer buffer(maxKeySize*2);
+    unsigned char buffer[maxKeySize+2];
     int64_t block = binarySearch0(lowBlock,highBlock,key,buffer);
     scanBlock(block,key,offset,length);
 }
@@ -120,7 +121,7 @@ void DiskSegment::binarySearch(const Slice& key,int64_t *offset,uint32_t *length
 int64_t DiskSegment::binarySearch0(int64_t lowBlock,int64_t highBlock,const ByteBuffer& key,unsigned char *buffer) {
     if(highBlock-lowBlock<=1) {
         // the key is either in low block or high block, or does not exist, so check high block
-        keyFile.readAt(buffer,highBlock*keyBlockSize,maxKeySize*2);
+        keyFile.readAt(buffer,highBlock*keyBlockSize,maxKeySize+2);
         uint16_t keylen = readLEuint16(buffer);
 
         Slice skey(buffer+2,keylen);
@@ -133,7 +134,7 @@ int64_t DiskSegment::binarySearch0(int64_t lowBlock,int64_t highBlock,const Byte
     }
 
     uint64_t block = (highBlock-lowBlock)/2 + lowBlock;
-    keyFile.readAt(buffer,block*keyBlockSize,maxKeySize*2);
+    keyFile.readAt(buffer,block*keyBlockSize,maxKeySize+2);
     uint16_t keylen = readLEuint16(buffer);
     Slice skey(buffer+2,keylen);
 

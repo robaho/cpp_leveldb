@@ -18,13 +18,13 @@ Google's leveldb includes a benchmarking tool [dbbench](https://github.com/googl
 
 | Test | [Go](https://github.com/robaho/leveldb)     | Go PGO<sup>2</sup> | [Java](https://github.com/robaho/jleveldb) | Java GraalVM<sup>1</sup> | C++ | C++ PGO<sup>2</sup> | [Google](https://github.com/google/leveldb/tree/068d5ee1a3ac40dabd00d211d5013af44be55bea) |
 | --- | ---: | ---: |---: | ---: | ---: | ---: | ---: |
-| write no-sync | 4.10 | 4.23 |4.86 | 5.51 | 4.71 | 4.48 | 4.60 |
-| write sync<sup>3</sup> | 49 | 46 |47 | 50 | 10822 | 10955 | 10023 |
-| write batch | 1.02 | 1.06 |1.08 | 1.72 | 1.19 | 1.04 | 1.94 |
-| write overwrite | 4.21 | 4.30 |4.70 | 5.60 | 4.78 | 4.66 | 8.20 |
-| read random | 2.42 | 2.49 |5.57 | 8.07 | 6.30 | 5.68 | 4.74 |
-| read sequential | 0.45 | 0.31 |0.35 | 0.51 | 0.49 | 0.40 | 0.15 |
-| read random compact | 2.30 | 2.40 |5.09 | 7.55 | 4.14 | 3.23 | 2.13 |
+| write no-sync | 4.10 | 4.23 |4.86 | 5.51 | 4.65 | 4.36 | 4.60 |
+| write sync<sup>3</sup> | 49 | 46 |47 | 50 | 10822 | 10888 | 10023 |
+| write batch | 1.02 | 1.06 |1.08 | 1.72 | 1.19 | 1.02 | 1.94 |
+| write overwrite | 4.21 | 4.30 |4.70 | 5.60 | 4.65 | 4.43 | 8.20 |
+| read random | 2.42 | 2.49 |5.57 | 8.07 | 5.93 | 4.61 | 4.74 |
+| read sequential | 0.45 | 0.31 |0.35 | 0.51 | 0.53 | 0.42 | 0.15 |
+| read random compact | 2.30 | 2.40 |5.09 | 7.55 | 3.71 | 2.68 | 2.13 |
 | read sequential compact | 0.11 | 0.09 |0.09 | 0.14 | 0.06 | 0.04 | 0.12 |
 
 <sup>1</sup> Profile guided optimizations are not enabled since they require the enterprise version.
