@@ -16,7 +16,7 @@ leveldb only supports multi-threaded access. There is a client/server module to 
 
 Google's leveldb includes a benchmarking tool [dbbench](https://github.com/google/leveldb/blob/068d5ee1a3ac40dabd00d211d5013af44be55bea/benchmarks/db_bench.cc). I have replicated this in each of the libraries. All tests are run on the same Intel iMac under OSX. All timings are in microseconds / operation. The methodology is that for each platform, db_bench was run multiple times, and the lowest timing for each task was recorded. Because of the short duration of the test, and the tasks themselves, they are subject to OS background interference.
 
-| Test | Go     | Go PGO<sup>2</sup> | Java | Java GraalVM<sup>1</sup> | C++ | C++ PGO<sup>2</sup> | Google |
+| Test | [Go](https://github.com/robaho/leveldb)     | Go PGO<sup>2</sup> | [Java](https://github.com/robaho/jleveldb) | Java GraalVM<sup>1</sup> | C++ | C++ PGO<sup>2</sup> | [Google](https://github.com/google/leveldb/tree/068d5ee1a3ac40dabd00d211d5013af44be55bea) |
 | --- | ---: | ---: |---: | ---: | ---: | ---: | ---: |
 | write no-sync | 4.10 | 4.23 |4.86 | 5.51 |5.34 | 5.18 | 4.60 |
 | write sync<sup>3</sup> | 49 | 46 |47 | 50 |10281 | 10560 | 10023 |
@@ -65,7 +65,3 @@ Modern C++ is a joy in many ways but it isn't perfect.
 1. Writing lock-free data structures is much easier in a GC language due to the [ABA problem](https://en.wikipedia.org/wiki/ABA_problem). `std::atomic` helps but using a well-tested library like Boost is probably safer. Still, I was able to implement the concurrent skip list in a lock-free manner.
 1. Cryptic error messages. Missing a single character can lead to a 100 line error across multiple files. Same underlying cause as the slow compile times.
 1. Having to work with both header and implementation files is a pain.
-
-## next steps
-
-I am going to test using profile guided optimization for the Go and C++ versions. I am also going to test a statically compiled Java version using GraalVM.
