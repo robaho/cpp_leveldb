@@ -13,6 +13,6 @@ class Merger {
 public:
     void autoMerger(Database* db);
     void wakeup();
-    void mergeSegments0(Database *db,int maxSegments);
+    void mergeSegments0(Database *db,int maxSegments,bool throttle);
     SegmentRef mergeSegments1(Deleter &deleter, const std::string& dbpath, std::vector<SegmentRef>& segments,bool purgeDeleted);
 };

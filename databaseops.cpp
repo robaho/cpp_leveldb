@@ -20,7 +20,7 @@ void Database::maybeMerge() {
     if(options.disableAutoMerge) return;
     auto state = getState();
     if(state->segments.size()> 2*options.maxSegments) {
-        merger.mergeSegments0(this,options.maxSegments);
+        merger.wakeup();
     }
 }
 

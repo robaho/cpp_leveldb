@@ -29,7 +29,7 @@ uint64_t readLEuint64(std::istream& file) {
     return readLEuint32(file) + (uint64_t(readLEuint32(file)) << 32);
 }
 
-void writeSegmentToDisk(Database *db,SegmentRef seg) {
+void writeSegmentToDisk(Database *db,Segment *seg) {
     auto itr = seg->lookup(ByteBuffer::EMPTY(),ByteBuffer::EMPTY());
     if(itr->peekKey().empty()) {
         seg->removeSegment();

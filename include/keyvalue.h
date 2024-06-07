@@ -39,7 +39,7 @@ typedef int (*CompareFn)(const KeyValue&,const KeyValue&);
 
 #define Key(x) KeyValue(x,ByteBuffer::EMPTY())
 
-static CompareFn keyValueCompare(const Options& options) {
+inline CompareFn keyValueCompare(const Options& options) {
 	if (options.userKeyCompare == nullptr) {
 		return [](const KeyValue&a,const KeyValue& b) -> int {
             return a.key.compareTo(b.key);

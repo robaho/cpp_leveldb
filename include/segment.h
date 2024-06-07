@@ -49,7 +49,7 @@ public:
 
 typedef std::shared_ptr<Segment> SegmentRef;
 
-static std::vector<SegmentRef> copyAndAppend(std::vector<SegmentRef> list, SegmentRef segment) {
+inline std::vector<SegmentRef> copyAndAppend(std::vector<SegmentRef> list, SegmentRef segment) {
     std::vector<SegmentRef> copy(list.size() + 1);
     copy = list;
     copy.push_back(segment);

@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE disksegment
+#define BOOST_TEST_MODULE dbbench
 #include <boost/test/included/unit_test.hpp>
 
 #include <string>
@@ -8,6 +8,8 @@
 
 #include "database.h"
 
+#include "./test_helpers.h"
+
 static const int nr = 1000000;
 static const int vSize = 100;
 static const int kSize = 16;
@@ -15,20 +17,6 @@ static const int batchSize = 1000;
 static const std::string dbname = "testdb/mydb";
 
 static uint8_t value[vSize];
-
-static long millis(const std::chrono::system_clock::time_point& end,const std::chrono::system_clock::time_point& start) {
-    return ((end-start).count())/1000;
-}
-
-static std::string dbsize(const std::string& dbpath) {
-    long size = 0;
-    for(auto f : fs::directory_iterator(dbpath)) {
-        size += fs::file_size(f);
-    }
-    char tmp[128];
-    snprintf(tmp,128,"%0.1fM", size/(1024.0*1024.0));
-    return tmp;
-}
 
 static void _testWrite(bool sync,bool remove) {
     if(remove) {

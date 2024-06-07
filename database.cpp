@@ -133,15 +133,16 @@ void Database::closeWithMerge(int segmentCount) {
     DatabaseState newState(copyAndAppend(state->segments,state->memory),MemorySegmentRef(0),MultiSegmentRef(0));
     setState(newState);
     if(segmentCount>0) {
-        merger.mergeSegments0(this,segmentCount);
+        merger.mergeSegments0(this,segmentCount,false);
     }
     state = getState();
     for(auto s : state->segments) {
-        if(typeid(*(s.get()))!=typeid(MemorySegment)) continue;
+        auto seg = s.get();
+        if(typeid(*seg)!=typeid(MemorySegment)) continue;
         WaitGroup *wgptr = &wg;
         wgptr->add(1);
-        executor.enqueue([s,this,wgptr]() {
-            writeSegmentToDisk(this,s);
+        executor.enqueue([seg,this,wgptr]() {
+            writeSegmentToDisk(this,seg);
             wgptr->done();
         });
     }

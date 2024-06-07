@@ -1,3 +1,4 @@
+#include <mutex>
 #include <thread>
 #include <iostream>
 
@@ -25,7 +26,7 @@ void Merger::autoMerger(Database* db) {
             }
             UseWaitGroup use(db->wg);
             try {
-                mergeSegments0(db,db->options.maxSegments);
+                mergeSegments0(db,db->options.maxSegments,true);
             } catch(std::exception& ex) {
                 db->err = &ex;
             }
@@ -37,11 +38,12 @@ void Merger::autoMerger(Database* db) {
 }
 
 void Merger::wakeup() {
-    std::unique_lock<std::mutex> lock(mtx);
+    std::unique_lock<std::mutex> lock(mtx, std::try_to_lock);
+    if(!lock.owns_lock()) return;
     cv.notify_one();
 }
 
-void Merger::mergeSegments0(Database* db,int maxSegments) {
+void Merger::mergeSegments0(Database* db,int maxSegments,bool throttle) {
     std::unique_lock<std::mutex> lock(merger, std::try_to_lock);
     if(!lock.owns_lock()) return;
 
@@ -87,7 +89,7 @@ void Merger::mergeSegments0(Database* db,int maxSegments) {
         db->setState(newstate);
 
         lock.unlock();
-        usleep(std::chrono::microseconds(100ms).count());
+        if(throttle) usleep(std::chrono::microseconds(100ms).count());
     }
 }
 

@@ -11,7 +11,7 @@
 #include "logfile.h"
 
 LogFile::LogFile(const std::string &dbpath, uint64_t id, const Options &options) : 
-    path(dbpath+"/log."+std::to_string(id)), id(id), options(options), file(&filebuf)
+    path(dbpath+"/log."+std::to_string(id)), options(options), file(&filebuf)
 {
     if(dbpath=="") return;
 

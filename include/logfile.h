@@ -12,7 +12,6 @@
 class LogFile {
     private:
         const std::string path;
-        const uint64_t id;
         const Options options;
         FdFileBuf filebuf;
         std::ostream file;

@@ -158,8 +158,6 @@ void DiskSegment::scanBlock(int64_t block,const Slice& key,int64_t *offset,uint3
     keyFile.readAt(buffer,block*keyBlockSize,keyBlockSize);
     int index = 0;
 
-    Slice prevKey;
-
     while(true) {
         if(index+2>keyBlockSize) throw IllegalState("buffer overrun");
 
@@ -183,12 +181,11 @@ void DiskSegment::scanBlock(int64_t block,const Slice& key,int64_t *offset,uint3
 
         if(endOfKey>keyBlockSize) throw IllegalState("buffer overrun");
 
-        if(prefixLen>0) {
-            memcpy(tmpKey,prevKey,prefixLen);
-        }
+        // tmpKey always has the previous key, so only need to replace the suffix
+
         memcpy(tmpKey+prefixLen,buffer+index,compressedLen);
 
-        Slice candidate = Slice(tmpKey,prefixLen+compressedLen);
+        Slice candidate(tmpKey,prefixLen+compressedLen);
         
         if(candidate.compareTo(key)==0) {
             *offset =readLEuint64(buffer+endOfKey);
@@ -199,7 +196,6 @@ void DiskSegment::scanBlock(int64_t block,const Slice& key,int64_t *offset,uint3
             *offset=-1;
             return;
         }
-        prevKey = candidate;
         index = endOfKey + 12;
     }
 
