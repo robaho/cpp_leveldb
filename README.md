@@ -14,22 +14,24 @@ leveldb only supports multi-threaded access. There is a client/server module to 
 
 ## performance
 
-Google's leveldb includes a benchmarking tool [dbbench](https://github.com/google/leveldb/blob/068d5ee1a3ac40dabd00d211d5013af44be55bea/benchmarks/db_bench.cc). I have replicated this in each of the libraries. All tests are run on the same Intel iMac under OSX. All timings are in microseconds / operation.
+Google's leveldb includes a benchmarking tool [dbbench](https://github.com/google/leveldb/blob/068d5ee1a3ac40dabd00d211d5013af44be55bea/benchmarks/db_bench.cc). I have replicated this in each of the libraries. All tests are run on the same Intel iMac under OSX. All timings are in microseconds / operation. The methodology is that for each platform, db_bench was run multiple times, and the lowest timing for each task was recorded. Because of the short duration of the test, and the tasks themselves, they are subject to OS background interference.
 
-| Test | Go     | Java | C++ | C++ PGO<sup>1</sup> | Google |
-| ---  | ---: | ---: | ---: | ---: | ---: |
-| write no-sync | 4.10 | 4.86 | 5.34 | 5.18 | 4.60 |
-| write sync<sup>2</sup> | 49 | 47 | 10281 | 10560 | 10023 |
-| write batch | 1.02 | 1.08 | 1.20 | 1.03 | 1.94 |
-| write overwrite | 4.21 | 4.70 | 6.10 | 5.58 | 8.20 |
-| read random | 2.42 | 5.65 | 5.36 | 4.15 | 4.74 |
-| read sequential | 0.45 | 0.35 | 0.47 | 0.41 | 0.15 |
-| read random compact | 2.30 | 5.20 | 4.50 | 3.29 | 2.13 |
-| read sequential compact | 0.11 | 0.10 | 0.05 | 0.04 | 0.12 |
+| Test | Go     | Go PGO<sup>2</sup> | Java | Java GraalVM<sup>1</sup> | C++ | C++ PGO<sup>2</sup> | Google |
+| --- | ---: | ---: |---: | ---: | ---: | ---: | ---: |
+| write no-sync | 4.10 | 4.23 |4.86 | 5.51 |5.34 | 5.18 | 4.60 |
+| write sync<sup>3</sup> | 49 | 46 |47 | 50 |10281 | 10560 | 10023 |
+| write batch | 1.02 | 1.06 |1.08 | 1.72 | 1.20 | 1.03 | 1.94 |
+| write overwrite | 4.21 | 4.30 |4.70 | 5.60 | 6.10 | 5.58 | 8.20 |
+| read random | 2.42 | 2.49 |5.57 | 8.07 | 5.36 | 4.15 | 4.74 |
+| read sequential | 0.45 | 0.31 |0.35 | 0.51 | 0.47 | 0.41 | 0.15 |
+| read random compact | 2.30 | 2.40 |5.09 | 7.55 | 4.50 | 3.29 | 2.13 |
+| read sequential compact | 0.11 | 0.09 |0.09 | 0.14 | 0.05 | 0.04 | 0.12 |
 
-<sup>1</sup> Compiled with profile guided optimizations.
+<sup>1</sup> Profile guided optimizations are not enabled since they require the enterprise version.
 
-<sup>2</sup> Both C++ and Google versions use `FULLFSYNC` on OSX for improved safety.
+<sup>2</sup> Compiled with profile guided optimizations.
+
+<sup>3</sup> Both C++ and Google versions use `FULLFSYNC` on OSX for improved safety.
 
 ## learnings
 
