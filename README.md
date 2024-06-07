@@ -8,7 +8,7 @@ The main motivation for this project was to familiarize myself with current C++ 
 
 The project is a bit of an "inception", in that, my original keydb was written in Go, then I did a Java port, then I discovered the Google [leveldb](https://github.com/google/leveldb/tree/068d5ee1a3ac40dabd00d211d5013af44be55bea) project - which is written in C++. I changed the keydb api to mimic the Google leveldb api - and renamed them leveldb and jleveldb.
 
-Now with this C++ port, I have written the same library from scratch in three languages - along with an independent version developed by Google. My library focus was on api simplicity, maintainability and performance. The three versions are written using the same design, but are idiomatic within the language.
+Now with this C++ port, I have written the same library from scratch in three languages ([Java code](https://github.com/robaho/jleveldb),[Go code](https://github.com/robaho/leveldb))- along with an independent version developed by Google. My library focus was on api simplicity, maintainability and performance. The three versions are written using the same design, but are idiomatic within the language.
 
 leveldb only supports multi-threaded access. There is a client/server module to expose cpp_leveldb for multi-process access available at [cpp_leveldbr](https://github.com/robaho/cpp_leveldbr)
 
